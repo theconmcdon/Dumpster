@@ -1,36 +1,69 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { prePost } from './Albums'
+
 
 export interface DetailProps extends RouteComponentProps<{ id: string; }> { }
 
 const Detail = ({history, match: { params: { id }}}) => {
 
-    const [album, setAlbum] = useState<prePost>({
-        text: null,
-        day: null,
-        time: null,
-        id: null
-    });
-
-    const getAlbum = async () => {
-        let res = await fetch(`/api/chirps/${id}`);
-        let mike = await res.json();
-        setAlbum(mike);
+    const imgBuddy = {
+        height: '70px',
+        width: '70px',
+        borderRadius: '10px'
     }
 
-    useEffect(() => { getAlbum(); }, [id])
+    const chirpBuddy = {
+        borderRadius: '10px'
+    }
+
+    const [array, setArray] = useState([])
+    const [array2, setArray2] = useState([])
+
+    const displayedPosts = array.map(val => {
+        return (
+            
+                <blockquote style={chirpBuddy} className="blockquote bg-white border p-5">
+                    <div className='row'>
+                        <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
+                        <div className='col-8'>
+                            <div className='pl-5 lead'>(nickname)</div>
+                            <p  className="pl-5 mb-0">{val.text}</p>
+                            <footer className="ml-5 blockquote-footer">@username on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+                        </div>
+                    </div>
+                </blockquote>
+            
+        )
+    });
+
+    const getPosts = async () => {
+        try {
+            const res = await fetch(`/api/chirps/:id`);
+            const posts = await res.json();
+            setArray(posts);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getPosts();
+    }, [id]);
+
+    useEffect(() => {
+        setArray2(displayedPosts)
+    }, [array]);
 
     return(
         <section>
             <article className="col-md-12"> 
                 <div className="card m-1 p-1 shadow">
-                    
+                    {array2}
                     <div className="card-body text-center">
                         <h4 className="lead card-title">refresh page to see server result otherwise this is broken</h4>
                         <div className="d-flex justify-content-center align-items-center mb-2">
-                            <p className="card-text m-3">{album.day} {album.time}</p>
+                            <p className="card-text m-3"></p>
                             
                         </div>
                         

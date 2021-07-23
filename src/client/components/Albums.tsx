@@ -9,15 +9,13 @@ export interface AlbumsProps { }
 export interface prePost {
     text: string,
     day: string,
-    time: string,
-    id: number
+    time: string
 }
 
 export interface array {
     text: string,
     day: string,
-    time: string,
-    id: number
+    time: string
 }
 
 const Albums = (props: AlbumsProps) => {
@@ -172,8 +170,7 @@ const Albums = (props: AlbumsProps) => {
         let prePost = {
             text: update,
             day: date.toLocaleDateString(),
-            time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            id: Math.random()
+            time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
         setArray([...array, prePost]);
         setTest(prePost)
