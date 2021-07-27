@@ -198,7 +198,7 @@ const DumpsterTimeline = (props: DumpsterTimelineProps) => {
             });
             setConfirm(false);
             if (res.ok) {
-                console.log('yay'); 
+                getPosts(); 
             } else {
                 console.log('uh oh');
             }
