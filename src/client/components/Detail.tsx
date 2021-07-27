@@ -56,7 +56,7 @@ const Detail = ({history, match: { params: { id }}}) => {
                     )
                 })}
                     <div className="card-body text-center">
-                        <h4 className="lead card-title">refresh page to see server result otherwise this is broken</h4>
+                        <h4 className="lead card-title"></h4>
                         <div className="d-flex justify-content-center align-items-center mb-2">
                             <p className="card-text m-3"></p>
                             
