@@ -9,14 +9,18 @@ router.get('/', (req, res) => {
     Object.keys(chirps).map(key => chirpArr.push({id: key, name: chirps[key].name, text: chirps[key].text, day: chirps[key].day, time: chirps[key].time}))
     let x = chirpArr.pop()
     res.send(chirpArr)
+    console.log(chirpArr)
 })
 
-router.get('/:id?', (req, res) => {
+router.get('/:id', (req, res) => {
+    console.log(req)
     const id = req.params.id
     if(id) {
+        console.log(id)
         let x = GetChirp(id)
+        console.log(x)
         const y = [x]
-        res.json(y)
+        res.send(y)
     }
 });
 

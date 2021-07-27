@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import Albums from './components/Albums';
+import DumpsterTimeline from './components/DumpsterTimeline';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Detail from './components/Detail';
 import DumpsterNavbar from './components/DumpsterNavbar';
@@ -14,7 +14,7 @@ const App = (props: AppProps) => {
 			<Router>
 				<DumpsterNavbar />
 				<Switch>
-					<Route exact path="/" component={Albums} />
+					<Route exact path="/" component={DumpsterTimeline} />
 					<Route path="/:id" component={Detail} />
 				</Switch>
 			</Router>

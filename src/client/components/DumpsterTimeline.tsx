@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 
 
 
-export interface AlbumsProps { }
+export interface DumpsterTimelineProps { }
+
+
 
 export interface prePost {
     text: string,
@@ -18,7 +20,7 @@ export interface array {
     time: string
 }
 
-const Albums = (props: AlbumsProps) => {
+const DumpsterTimeline = (props: DumpsterTimelineProps) => {
 
 
 
@@ -60,6 +62,7 @@ const Albums = (props: AlbumsProps) => {
     const hoverEnterPost = () => {
         let postBtn = document.querySelector('#btnPost')
         postBtn.classList.add('text-danger')
+        console.log(array2)
     }
 
     const hoverLeavePost = () => {
@@ -133,6 +136,7 @@ const Albums = (props: AlbumsProps) => {
             const res = await fetch('/api/chirps');
             const posts = await res.json();
             setArray(posts);
+            console.log(posts)
         } catch (error) {
             console.log(error);
         }
@@ -150,19 +154,21 @@ const Albums = (props: AlbumsProps) => {
 
     const displayedPosts = array.map(val => {
         return (
-            <Link style={{ textDecoration: "none" }} className="text-dark" key={`post-${val.id}`} to={`/api/chirps/${val.id}`}>
-                <blockquote style={chirpBuddy} className="blockquote bg-white border p-5">
-                    <div className='row'>
-                        <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
-                        <div className='col-8'>
-                            <div className='pl-5 lead'>(nickname)</div>
-                            <p  className="pl-5 mb-0">{val.text}</p>
-                            <footer className="ml-5 blockquote-footer">@username on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+            <div key={`${val.id}`}>
+                <Link style={{ textDecoration: "none" }} className="text-dark"  to={`/${val.id}`}>
+                    <blockquote style={chirpBuddy} className="blockquote bg-white border p-5">
+                        <div className='row'>
+                            <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
+                            <div className='col-8'>
+                                <div className='pl-5 lead'>(nickname)</div>
+                                <p  className="pl-5 mb-0">{val.text}</p>
+                                <footer className="ml-5 blockquote-footer">@username on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+                            </div>
                         </div>
-                    </div>
-                </blockquote>
-            </Link>
-        )
+                    </blockquote>
+                </Link>
+            </div>
+        )   
     });
 
     const newPost = async () => {
@@ -277,4 +283,4 @@ const Albums = (props: AlbumsProps) => {
     )
 }
 
-export default Albums
+export default DumpsterTimeline

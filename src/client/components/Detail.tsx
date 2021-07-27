@@ -18,30 +18,13 @@ const Detail = ({history, match: { params: { id }}}) => {
     }
 
     const [array, setArray] = useState([])
-    const [array2, setArray2] = useState([])
-
-    const displayedPosts = array.map(val => {
-        return (
-            
-                <blockquote style={chirpBuddy} className="blockquote bg-white border p-5">
-                    <div className='row'>
-                        <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
-                        <div className='col-8'>
-                            <div className='pl-5 lead'>(nickname)</div>
-                            <p  className="pl-5 mb-0">{val.text}</p>
-                            <footer className="ml-5 blockquote-footer">@username on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
-                        </div>
-                    </div>
-                </blockquote>
-            
-        )
-    });
 
     const getPosts = async () => {
         try {
-            const res = await fetch(`/api/chirps/:id`);
-            const posts = await res.json();
-            setArray(posts);
+            const res = await fetch(`/api/chirps/${id}`);
+            let post = await res.json();
+            setArray(post);
+            console.log(post)
         } catch (error) {
             console.log(error);
         }
@@ -51,15 +34,27 @@ const Detail = ({history, match: { params: { id }}}) => {
         getPosts();
     }, [id]);
 
-    useEffect(() => {
-        setArray2(displayedPosts)
-    }, [array]);
 
     return(
         <section>
             <article className="col-md-12"> 
                 <div className="card m-1 p-1 shadow">
-                    {array2}
+                {array.map(val => {
+                    return (
+                        
+                            <blockquote key={id} style={chirpBuddy} className="blockquote bg-white border p-5">
+                                <div className='row'>
+                                    <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
+                                    <div className='col-8'>
+                                        <div className='pl-5 lead'>(nickname)</div>
+                                        <p  className="pl-5 mb-0">{val.text}</p>
+                                        <footer className="ml-5 blockquote-footer">@username on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+                                    </div>
+                                </div>
+                            </blockquote>
+                        
+                    )
+                })}
                     <div className="card-body text-center">
                         <h4 className="lead card-title">refresh page to see server result otherwise this is broken</h4>
                         <div className="d-flex justify-content-center align-items-center mb-2">

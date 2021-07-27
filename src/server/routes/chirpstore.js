@@ -10,6 +10,7 @@ let getChirps = () => {
 }
 
 let getChirp = id => {
+    console.log(id)
     return Object.assign({}, chirps[id]); //create a copy and return it
 }
 
