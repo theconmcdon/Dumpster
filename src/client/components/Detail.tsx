@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 
-export interface DetailProps extends RouteComponentProps<{ id: string; }> { }
+export interface DetailProps extends RouteComponentProps<{ id: any; }> { }
 
 const Detail = ({ history, match: { params: { id } } }) => {
 
@@ -18,6 +18,7 @@ const Detail = ({ history, match: { params: { id } } }) => {
     }
 
     const [array, setArray] = useState([])
+
 
     const getPosts = async () => {
         try {
