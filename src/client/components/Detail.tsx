@@ -1,11 +1,21 @@
-import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { IChirp } from "../utils/types";
+
+const Detail = () => {
+    const { id } = useParams<{ id: string }>();
+    const [chirp, setChirp] = useState<IChirp>({ id: id, name: "", text: "", day: "", time: "", email: "" });
+    const history = useHistory();
+
+    useEffect(() => {
+        (async () => {
+            let res = await fetch(`/api/chirps/${id}`);
+            let chirp = await res.json();
+            setChirp(chirp);
+        })();
+    }, []);
 
 
-export interface DetailProps extends RouteComponentProps<{ id: any; }> { }
-
-const Detail = ({ history, match: { params: { id } } }) => {
 
     const imgBuddy = {
         height: '70px',
@@ -17,23 +27,7 @@ const Detail = ({ history, match: { params: { id } } }) => {
         borderRadius: '10px'
     }
 
-    const [array, setArray] = useState([])
 
-
-    const getPosts = async () => {
-        try {
-            const res = await fetch(`/api/chirps/${id}`);
-            let post = await res.json();
-            setArray(post);
-            console.log(post)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getPosts();
-    }, [id]);
 
 
     const hoverEnterLike = () => {
@@ -100,22 +94,18 @@ const Detail = ({ history, match: { params: { id } } }) => {
                 </div>
                 <div className="col-md-9">
 
-                    {array.map(val => {
-                        return (
 
-                            <blockquote key={id} style={chirpBuddy} className="blockquote bg-white border p-5">
-                                <div className='row'>
-                                    <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
-                                    <div className='col-8'>
-                                        <div className='pl-5 lead'>(nickname)</div>
-                                        <p className="pl-5 mb-0">{val.text}</p>
-                                        <footer className="ml-5 blockquote-footer">@username on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
-                                    </div>
-                                </div>
-                            </blockquote>
+                    <blockquote key={id} style={chirpBuddy} className="blockquote bg-white border p-5">
+                        <div className='row'>
+                            <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
+                            <div className='col-8'>
+                                <div className='pl-5 lead'>{chirp.email}</div>
+                                <p className="pl-5 mb-0">{chirp.text}</p>
+                                <footer className="ml-5 blockquote-footer">@{chirp.name} on <cite title="Source Title">{chirp.day} at {chirp.time}</cite></footer>
+                            </div>
+                        </div>
+                    </blockquote>
 
-                        )
-                    })}
 
 
                 </div>
@@ -125,8 +115,7 @@ const Detail = ({ history, match: { params: { id } } }) => {
                 <button onClick={() => history.goBack()} className='btn btn-danger mx-auto'>go back</button>
             </div>
         </section>
-    )
-}
+    );
+};
 
 export default Detail;
-

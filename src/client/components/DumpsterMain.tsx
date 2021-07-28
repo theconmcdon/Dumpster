@@ -1,24 +1,35 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import DumpsterLogin from './components/DumpsterLogin';
-import { BrowserRouter as LoginRouter, Switch, Route } from 'react-router-dom';
+import DumpsterTimeline from './DumpsterTimeline';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Detail from './Detail';
+import DumpsterNavbar from './DumpsterNavbar';
+import DumpsterBoards from './DumpsterBoards';
+import DumpsterBoardsMusic from './DumpsterBoardsMusic';
+import { nameProps } from "../utils/types";
 
 /* HOOK REACT EXAMPLE */
-const App = (props: AppProps) => {
+const DumpsterMain: React.FC<nameProps> = (props) => {
 
 
 	return (
 		<div>
-			<LoginRouter>
+			<Router>
+				<DumpsterNavbar />
 				<Switch>
-					<Route exact path="/" component={DumpsterLogin} />
+					<Route exact path="/" >
+						<DumpsterTimeline username={props.username} nickName={props.nickName}/>
+					</Route>
+					<Route path="/:id" component={Detail} />
+					<Route exact path="/boards" component={DumpsterBoards} />
+					<Route path="/boards/music" component={DumpsterBoardsMusic} />
 				</Switch>
-			</LoginRouter>
+			</Router>
 		</div>
 	);
 };
 
-interface AppProps {}
+interface DumpsterMainProps { username }
 
 /* CLASS REACT EXAMPLE */
 // class App extends React.Component<IAppProps, IAppState> {
@@ -54,4 +65,4 @@ interface AppProps {}
 // 	name: string;
 // }
 
-export default App;
+export default DumpsterMain;

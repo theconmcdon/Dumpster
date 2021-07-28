@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { nameProps } from '../utils/types';
 
 
 
@@ -10,17 +11,15 @@ export interface DumpsterTimelineProps { }
 
 export interface prePost {
     text: string,
+    name: string,
+    email: string,
     day: string,
     time: string
+
 }
 
-export interface array {
-    text: string,
-    day: string,
-    time: string
-}
 
-const DumpsterTimeline = (props: DumpsterTimelineProps) => {
+const DumpsterTimeline: React.FC<nameProps> = (props) => {
 
 
 
@@ -146,6 +145,9 @@ const DumpsterTimeline = (props: DumpsterTimelineProps) => {
         getPosts();
     }, []);
 
+
+    const [name, setName] = useState(props.username)
+    const [email, setEmail] = useState(props.nickName)
     const [confirm, setConfirm] = useState(false)
     const [test, setTest] = useState<prePost>()
     const [update, setUpdate] = useState<string>()
@@ -160,9 +162,9 @@ const DumpsterTimeline = (props: DumpsterTimelineProps) => {
                         <div className='row'>
                             <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
                             <div className='col-8'>
-                                <div className='pl-5 lead'>(nickname)</div>
+                                <div className='pl-5 lead'>{val.email}</div>
                                 <p  className="pl-5 mb-0">{val.text}</p>
-                                <footer className="ml-5 blockquote-footer">@username on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+                                <footer className="ml-5 blockquote-footer">@{val.name} on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
                             </div>
                         </div>
                     </blockquote>
@@ -175,6 +177,8 @@ const DumpsterTimeline = (props: DumpsterTimelineProps) => {
         let date = new Date();
         let prePost = {
             text: update,
+            name: name,
+            email: email,
             day: date.toLocaleDateString(),
             time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
@@ -198,7 +202,7 @@ const DumpsterTimeline = (props: DumpsterTimelineProps) => {
             });
             setConfirm(false);
             if (res.ok) {
-                getPosts(); 
+                getPosts();
             } else {
                 console.log('uh oh');
             }
@@ -214,7 +218,7 @@ const DumpsterTimeline = (props: DumpsterTimelineProps) => {
         <div>
             <div className='row pb-2 mb-4 d-flex flex-row bg-danger bg-gradient text-white'>
                 <div className='col-2 display-4 text-center'>‏‏‎ ‎‏‏‎ ‎‏‏‎‎‏‏‎🗑️</div>
-                <div className='col-10 pl-4 display-4' >(nickname)'s timeline</div>
+                <div className='col-10 pl-4 display-4' >{props.nickName}'s timeline</div>
             </div>
             <div className='row d-flex'>
                 <div className='col-2'>
