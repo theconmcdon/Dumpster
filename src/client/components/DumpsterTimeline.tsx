@@ -2,8 +2,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { nameProps } from '../utils/types';
-import Modal from 'react-bootstrap/Modal'
-import MyVerticallyCenteredModal from './MyVerticallyCenteredModal'
 import DumpsterEdit from './DumpsterEdit'
 import { prePost } from '../utils/types'
 

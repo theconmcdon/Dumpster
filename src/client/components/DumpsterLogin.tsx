@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'
-import DumpsterMain from './DumpsterMain';
+import DumpsterRouter from './DumpsterRouter';
 
 
 const DumpsterLogin = () => {
@@ -112,7 +112,7 @@ const DumpsterLogin = () => {
     else {
         return (
             <>
-                <DumpsterMain username={username} nickName={nickName}/>
+                <DumpsterRouter username={username} nickName={nickName}/>
             </>
         )
     };

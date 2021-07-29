@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { IChirp } from "../utils/types";
+import { nameProps } from '../utils/types';
 
-const Detail = () => {
+const DumpsterPost: React.FC<nameProps> = (props) => {
     const { id } = useParams<{ id: string }>();
     const [chirp, setChirp] = useState<IChirp>({ id: id, name: "", text: "", day: "", time: "", email: "" });
     const history = useHistory();
@@ -118,4 +119,4 @@ const Detail = () => {
     );
 };
 
-export default Detail;
+export default DumpsterPost;

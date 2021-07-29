@@ -2,16 +2,20 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import DumpsterTimeline from './DumpsterTimeline';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Detail from './Detail';
+import DumpsterPost from './DumpsterPost';
 import DumpsterNavbar from './DumpsterNavbar';
 import DumpsterBoards from './DumpsterBoards';
 import DumpsterBoardsMusic from './DumpsterBoardsMusic';
 import { nameProps } from "../utils/types";
 import DumpsterTest from './DumpsterTest'
 import DumpsterMessages from './DumpsterMessages'
+import DumpsterNotifications from './DumpsterNotifications';
+import DumpsterSaved from './DumpsterSaved';
+import DumpsterLogin from './DumpsterLogin'
+ 
 
 /* HOOK REACT EXAMPLE */
-const DumpsterMain: React.FC<nameProps> = (props) => {
+const DumpsterRouter: React.FC<nameProps> = (props) => {
 
 
 	return (
@@ -31,10 +35,23 @@ const DumpsterMain: React.FC<nameProps> = (props) => {
 						<DumpsterBoardsMusic username={props.username} nickName={props.nickName} />
 					</Route>
 
+					<Route exact path="/messages">
+						<DumpsterMessages username={props.username} nickName={props.nickName} />
+					</Route>
+
+					<Route exact path="/saved">
+						<DumpsterSaved username={props.username} nickName={props.nickName} />
+					</Route>
+
+					<Route exact path="/notifications">
+						<DumpsterNotifications username={props.username} nickName={props.nickName} />
+					</Route>
+					
+
 					
 
 					<Route exact path="/:id">
-						<Detail />
+						<DumpsterPost username={props.username} nickName={props.nickName} />
 					</Route>
 					
 				</Switch>
@@ -45,7 +62,7 @@ const DumpsterMain: React.FC<nameProps> = (props) => {
 	);
 };
 
-interface DumpsterMainProps { username }
+
 
 /* CLASS REACT EXAMPLE */
 // class App extends React.Component<IAppProps, IAppState> {
@@ -81,4 +98,4 @@ interface DumpsterMainProps { username }
 // 	name: string;
 // }
 
-export default DumpsterMain;
+export default DumpsterRouter;
