@@ -7,6 +7,8 @@ import DumpsterNavbar from './DumpsterNavbar';
 import DumpsterBoards from './DumpsterBoards';
 import DumpsterBoardsMusic from './DumpsterBoardsMusic';
 import { nameProps } from "../utils/types";
+import DumpsterTest from './DumpsterTest'
+import DumpsterMessages from './DumpsterMessages'
 
 /* HOOK REACT EXAMPLE */
 const DumpsterMain: React.FC<nameProps> = (props) => {
@@ -28,6 +30,8 @@ const DumpsterMain: React.FC<nameProps> = (props) => {
 					<Route exact path="/boards/music">
 						<DumpsterBoardsMusic username={props.username} nickName={props.nickName} />
 					</Route>
+
+					
 
 					<Route exact path="/:id">
 						<Detail />

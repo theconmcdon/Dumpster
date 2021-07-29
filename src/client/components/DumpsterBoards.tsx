@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
+import { nameProps } from '../utils/types';
 
 export interface DumpsterBoardsProps { }
 
-const DumpsterBoards = (props: DumpsterBoardsProps) => {
+const DumpsterBoards: React.FC<nameProps> = (props) => {
 
     const positionBuddy = {
         position: 'absolute',

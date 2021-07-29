@@ -2,6 +2,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { nameProps } from '../utils/types';
+import Modal from 'react-bootstrap/Modal'
+import MyVerticallyCenteredModal from './MyVerticallyCenteredModal'
+import DumpsterEdit from './DumpsterEdit'
+import { prePost } from '../utils/types'
 
 
 
@@ -9,21 +13,15 @@ export interface DumpsterTimelineProps { }
 
 
 
-export interface prePost {
-    text: string,
-    name: string,
-    email: string,
-    day: string,
-    time: string
 
-}
+
 
 
 const DumpsterTimeline: React.FC<nameProps> = (props) => {
 
 
-
-
+    
+   
 
     const hoverBuddy = {
         cursor: 'pointer'
@@ -50,11 +48,26 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
         borderRadius: '10px'
     }
 
-   
+    const fontBuddy = {
+        fontSize: '16px',
+        cursor: 'pointer'
+    }
+
+
 
     //useEffect(() => {
     //    setTimeout(() => { setArray2(displayedPosts); }, 100)
     //}, [])
+
+    const [name, setName] = useState(props.username)
+    const [email, setEmail] = useState(props.nickName)
+    const [confirm, setConfirm] = useState(false)
+    const [test, setTest] = useState<prePost>()
+    const [update, setUpdate] = useState<string>()
+    const [array2, setArray2] = useState([])
+    const [array, setArray] = useState([])
+    const [conditional, setConditional] = useState(false)
+    const [posts, setPosts] = useState(false)
 
 
 
@@ -130,6 +143,27 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
         postBtn.classList.remove('text-danger')
     }
 
+    const hoverEnterEdit = () => {
+        let postBtn = document.querySelector('#btnEdit')
+        postBtn.classList.add('text-danger')
+    }
+
+    const hoverLeaveEdit = () => {
+        let postBtn = document.querySelector('.btnEdit')
+        postBtn.classList.remove('text-danger')
+    }
+
+
+    const hoverEnterButton = (id) => {
+        let postBtn = document.querySelector(`#${id}`)
+        postBtn.classList.add('text-danger')
+    }
+
+    const hoverLeaveButton = (id) => {
+        let postBtn = document.querySelector(`#${id}`)
+        postBtn.classList.remove('text-danger')
+    }
+
     const getPosts = async () => {
         try {
             const res = await fetch('/api/chirps');
@@ -145,32 +179,79 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
         getPosts();
     }, []);
 
+    useEffect(() => {
+        if (conditional) {
+            getPosts();
+            setConditional(false);
+        }
+    }, [conditional]);
 
-    const [name, setName] = useState(props.username)
-    const [email, setEmail] = useState(props.nickName)
-    const [confirm, setConfirm] = useState(false)
-    const [test, setTest] = useState<prePost>()
-    const [update, setUpdate] = useState<string>()
-    const [array2, setArray2] = useState([])
-    const [array, setArray] = useState([])
+    const deletePost = async (id) => {
+        let res = await fetch(`/api/chirps/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+        if (res.ok) {
+            getPosts();
+        } else {
+            console.log('uh oh');
+        }
+    }
+
+    
+
+    
 
     const displayedPosts = array.map(val => {
-        return (
-            <div key={`${val.id}`}>
-                <Link style={{ textDecoration: "none" }} className="text-dark"  to={`/${val.id}`}>
+        if (val.name == props.username) {
+            return (
+                <div onMouseLeave={() => setConditional(true)} key={`${val.id}`}>
+                    
+                        <blockquote style={chirpBuddy} className="blockquote bg-white border p-5">
+                            <Link style={{ textDecoration: "none" }} className="text-dark" to={`/${val.id}`}>
+                            <div className='row'>
+                                <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
+                                <div className='col-8'>
+                                    <div className='pl-5 lead'>{val.email}</div>
+                                    <p className="pl-5 mb-0">{val.text}</p>
+                                    <footer className="ml-5 blockquote-footer">@{val.name} on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+                                </div>
+                            </div>
+                            </Link>
+                            <div className='mt-3 row'>
+                                <div className='col-1'></div>
+                                <div onClick={() => setConditional(false)}>
+
+                                <DumpsterEdit pageID={val.id} id={`edit-${val.id}`} text={val.text} nickName={val.email} username={val.name}/>
+                                </div>
+                                <div style={fontBuddy} id={`delete-${val.id}`} onMouseEnter={() => hoverEnterButton(`delete-${val.id}`)} onMouseLeave={() => hoverLeaveButton(`delete-${val.id}`)} onClick={() => deletePost(val.id)} className='font-weight-lighter col-8'>delete</div>
+                            </div>
+                        </blockquote>
+                    
+                </div>
+            )
+        } else {
+            return (
+                <div key={`${val.id}`}>
+                    
                     <blockquote style={chirpBuddy} className="blockquote bg-white border p-5">
+                        <Link style={{ textDecoration: "none" }} className="text-dark" to={`/${val.id}`}>
                         <div className='row'>
                             <img style={imgBuddy} src="https://pbs.twimg.com/media/C8QqGm4UQAAUiET.jpg" alt="" />
                             <div className='col-8'>
                                 <div className='pl-5 lead'>{val.email}</div>
-                                <p  className="pl-5 mb-0">{val.text}</p>
+                                <p className="pl-5 mb-0">{val.text}</p>
                                 <footer className="ml-5 blockquote-footer">@{val.name} on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
                             </div>
                         </div>
+                        </Link>
                     </blockquote>
-                </Link>
-            </div>
-        )   
+            
+                </div>
+            )
+        }
     });
 
     const newPost = async () => {
