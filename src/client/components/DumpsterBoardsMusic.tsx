@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { v4 as uuid4 } from "uuid";
-import { prePost } from './DumpsterTimeline';
+import { nameProps } from '../utils/types';
 
 export interface prePost {
     text: string,
@@ -13,7 +13,7 @@ export interface DumpsterBoardsMusicProps { }
 
 export interface Element { style: any }
 
-const DumpsterBoardsMusic = (props: DumpsterBoardsMusicProps) => {
+const DumpsterBoardsMusic: React.FC<nameProps> = (props) => {
 
     const positionBuddy: any = {
         position: 'absolute',
@@ -66,7 +66,7 @@ const DumpsterBoardsMusic = (props: DumpsterBoardsMusicProps) => {
                     <div><span className="bg-dark bg-gradient card-text"></span></div>
                     <div className='row m-5'></div>
                     <span style={positionBuddy2} className="bg-dark bg-gradient p-1 card-text">last bump just now</span>
-                    <span style={positionBuddy} className="bg-dark bg-gradient p-1 card-text">posted just now by nickName</span>
+                    <span style={positionBuddy} className="bg-dark bg-gradient p-1 card-text">posted just now by {props.nickName}</span>
                 </div>
             </div> 
         )
@@ -157,7 +157,7 @@ const DumpsterBoardsMusic = (props: DumpsterBoardsMusicProps) => {
                     </form>
                 </div>
             </nav>
-            <div className='mt-1 ml-3 mr-3 row d-flex'>
+            <div className='mt-1 ml-3 mr-3 row bg-light bg-gradient d-flex'>
                 <div className='col-1'></div>
                 <div className='col-1'>
                     <div className=''>
@@ -176,7 +176,7 @@ const DumpsterBoardsMusic = (props: DumpsterBoardsMusicProps) => {
                 </div>
                 <div className='col-1'></div> 
             </div>
-            <div className='row'>
+            <div className='row bg-light bg-gradient'>
                 <div className='col-3'></div>
                 <div className='col-6 p-2 border-top'></div>
                 <div className='col-3'></div>

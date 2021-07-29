@@ -20,10 +20,22 @@ const DumpsterMain: React.FC<nameProps> = (props) => {
 					<Route exact path="/" >
 						<DumpsterTimeline username={props.username} nickName={props.nickName}/>
 					</Route>
-					<Route path="/:id" component={Detail} />
-					<Route exact path="/boards" component={DumpsterBoards} />
-					<Route path="/boards/music" component={DumpsterBoardsMusic} />
+					
+					<Route exact path="/boards">
+						<DumpsterBoards username={props.username} nickName={props.nickName}/>
+					</Route>
+
+					<Route exact path="/boards/music">
+						<DumpsterBoardsMusic username={props.username} nickName={props.nickName} />
+					</Route>
+
+					<Route exact path="/:id">
+						<Detail />
+					</Route>
+					
 				</Switch>
+				
+
 			</Router>
 		</div>
 	);

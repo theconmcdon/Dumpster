@@ -279,7 +279,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
             </div>
             <div className='d-flex row mt-5 mb-5'>
                 <div className='col-12'>
-                    <div className='lead justify-content-center row'>End of Feed</div>
+                    <div className='lead justify-content-center row'>end of feed</div>
                 </div>
             </div>
         </div>
