@@ -34,9 +34,10 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const id: string = req.params.id;
   const newText: string = req.body.text;
+  const edit: string = req.body.edit
 
   try {
-    await db.Chirps.put(id, newText);
+    await db.Chirps.put(id, newText, edit);
 
     res.send("edited successfully");
   } catch (error) {

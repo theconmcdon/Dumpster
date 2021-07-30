@@ -4,9 +4,9 @@ import Users from './users';
 
 const Connection = mysql.createConnection({
     host: 'localhost',
-    user: 'chirprapp',
-    password: 'BlahBlah123!',
-    database: 'c14chirpr',
+    user: 'guest',
+    password: 'guest',
+    database: 'c14chirpr2',
     port: 3306
 });
 

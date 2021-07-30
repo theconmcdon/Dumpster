@@ -65,7 +65,6 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
     const [array2, setArray2] = useState([])
     const [array, setArray] = useState([])
     const [conditional, setConditional] = useState(false)
-    const [posts, setPosts] = useState(false)
 
 
 
@@ -164,7 +163,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
 
     const getPosts = async () => {
         try {
-            const res = await fetch('/api/chirps');
+            const res = await fetch('/dumpster/feed');
             const posts = await res.json();
             setArray(posts);
             console.log(posts)
@@ -185,7 +184,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
     }, [conditional]);
 
     const deletePost = async (id) => {
-        let res = await fetch(`/api/chirps/${id}`, {
+        let res = await fetch(`/dumpster/feed/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -202,10 +201,12 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
 
     
 
+    
+
     const displayedPosts = array.map(val => {
         if (val.name == props.username) {
             return (
-                <div onMouseLeave={() => setConditional(true)} key={`${val.id}`}>
+                <div onMouseOver={() => setConditional(true)} onMouseLeave={() => setConditional(true)} key={`${val.id}`}>
                     
                         <blockquote style={chirpBuddy} className="blockquote bg-white border p-5">
                             <Link style={{ textDecoration: "none" }} className="text-dark" to={`/${val.id}`}>
@@ -214,7 +215,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
                                 <div className='col-8'>
                                     <div className='pl-5 lead'>{val.email}</div>
                                     <p className="pl-5 mb-0">{val.text}</p>
-                                    <footer className="ml-5 blockquote-footer">@{val.name} on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+                                    <footer className="ml-5 blockquote-footer">@{val.name} on <cite>{val.day} at {val.time}<span title='edited'>{val.edit}</span></cite></footer>
                                 </div>
                             </div>
                             </Link>
@@ -224,7 +225,8 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
 
                                 <DumpsterEdit pageID={val.id} id={`edit-${val.id}`} text={val.text} nickName={val.email} username={val.name}/>
                                 </div>
-                                <div style={fontBuddy} id={`delete-${val.id}`} onMouseEnter={() => hoverEnterButton(`delete-${val.id}`)} onMouseLeave={() => hoverLeaveButton(`delete-${val.id}`)} onClick={() => deletePost(val.id)} className='font-weight-lighter col-8'>delete</div>
+                                <div style={fontBuddy} id={`delete-${val.id}`} onMouseEnter={() => hoverEnterButton(`delete-${val.id}`)} onMouseLeave={() => hoverLeaveButton(`delete-${val.id}`)} onClick={() => deletePost(val.id)} className='font-weight-lighter col-1'>delete</div>
+                                <div className='col-7'></div>
                             </div>
                         </blockquote>
                     
@@ -241,7 +243,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
                             <div className='col-8'>
                                 <div className='pl-5 lead'>{val.email}</div>
                                 <p className="pl-5 mb-0">{val.text}</p>
-                                <footer className="ml-5 blockquote-footer">@{val.name} on <cite title="Source Title">{val.day} at {val.time}</cite></footer>
+                                <footer className="ml-5 blockquote-footer">@{val.name} on <cite>{val.day} at {val.time}<span title='edited'>{val.edit}</span></cite></footer>
                             </div>
                         </div>
                         </Link>
@@ -272,7 +274,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
 
     const sendPost = async () => {
         if (confirm) {
-            let res = await fetch("/api/chirps", {
+            let res = await fetch("/dumpster/feed", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

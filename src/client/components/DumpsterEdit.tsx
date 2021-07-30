@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { editProps } from '../utils/types';
 import Modal from 'react-bootstrap/Modal'
-import { prePost } from '../utils/types'
+import { editPost } from '../utils/types'
 import { useHistory } from 'react-router';
-import ModalHeader from 'react-bootstrap/ModalHeader'
 
 
 const DumpsterEdit: React.FC<editProps> = (props) => {
@@ -44,7 +43,7 @@ const DumpsterEdit: React.FC<editProps> = (props) => {
     const [id, setID] = useState(props.id);
 
     const [confirm, setConfirm] = useState(false)
-    const [test, setTest] = useState<prePost>()
+    const [test, setTest] = useState<editPost>()
     const [update, setUpdate] = useState<string>(props.text)
     const [array2, setArray2] = useState([])
     const [array, setArray] = useState([])
@@ -69,48 +68,46 @@ const DumpsterEdit: React.FC<editProps> = (props) => {
     }
 
     const hoverEnterPost = () => {
-        let postBtn = document.querySelector('#btnPost')
+        let postBtn = document.querySelector('#btnPost2')
         postBtn.classList.add('text-danger')
         
     }
 
     const hoverLeavePost = () => {
-        let postBtn = document.querySelector('#btnPost')
+        let postBtn = document.querySelector('#btnPost2')
         postBtn.classList.remove('text-danger')
     }
 
     const hoverEnterImg = () => {
-        let postBtn = document.querySelector('#btnImg')
+        let postBtn = document.querySelector('#btnImg2')
         postBtn.classList.add('text-danger')
     }
 
     const hoverLeaveImg = () => {
-        let postBtn = document.querySelector('#btnImg')
+        let postBtn = document.querySelector('#btnImg2')
         postBtn.classList.remove('text-danger')
     }
 
     const hoverEnterLink = () => {
-        let postBtn = document.querySelector('#btnLink')
+        let postBtn = document.querySelector('#btnLink2')
         postBtn.classList.add('text-danger')
         
     }
 
     const hoverLeaveLink = () => {
-        let postBtn = document.querySelector('#btnLink')
+        let postBtn = document.querySelector('#btnLink2')
         postBtn.classList.remove('text-danger')
     }
 
     const newPost = async () => {
-        let date = new Date();
-        let prePost = {
+        let editPost = {
             text: update,
             name: props.username,
             email: props.nickName,
-            day: date.toLocaleDateString(),
-            time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            edit: '*'
         };
-        setArray([...array, prePost]);
-        setTest(prePost)
+        setArray([...array, editPost]);
+        setTest(editPost)
         setConfirm(true)
     }
 
@@ -121,7 +118,7 @@ const DumpsterEdit: React.FC<editProps> = (props) => {
 
     const sendPost = async (id) => {
         if (confirm) {
-            let res = await fetch(`/api/chirps/${id}`, {
+            let res = await fetch(`/dumpster/feed/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -150,6 +147,7 @@ const DumpsterEdit: React.FC<editProps> = (props) => {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                
             >
                 <Modal.Header style={{ marginRight: '0.001em', marginTop: '0.001em'}} className='bg-danger'>
                     <Modal.Title style={{ fontSize: '25px'}} className='lead text-white' id="contained-modal-title-vcenter">
@@ -160,13 +158,13 @@ const DumpsterEdit: React.FC<editProps> = (props) => {
                     <div className='row d-flex'>
                         <div className='col-2'>
                             <div className=''>
-                                <div className='border-right mt-3 lead border-secondary text-right pr-2' id='btnPost' onClick={() => newPost()} style={hoverBuddy} onMouseEnter={() => hoverEnterPost()} onMouseLeave={() => hoverLeavePost()}>post</div>
+                                <div className='border-right mt-3 lead border-secondary text-right pr-2' id='btnPost2' onClick={() => newPost()} style={hoverBuddy} onMouseEnter={() => hoverEnterPost()} onMouseLeave={() => hoverLeavePost()}>post</div>
                             </div>
                             <div>
-                                <div className='border-right lead border-secondary text-right pr-2' id='btnImg' style={hoverBuddy} onMouseEnter={() => hoverEnterImg()} onMouseLeave={() => hoverLeaveImg()}>add image</div>
+                                <div className='border-right lead border-secondary text-right pr-2' id='btnImg2' style={hoverBuddy} onMouseEnter={() => hoverEnterImg()} onMouseLeave={() => hoverLeaveImg()}>add image</div>
                             </div>
                             <div>
-                                <div className='border-right mb-3 lead border-secondary text-right pr-2' id='btnLink' style={hoverBuddy} onMouseEnter={() => hoverEnterLink()} onMouseLeave={() => hoverLeaveLink()}>add link</div>
+                                <div className='border-right mb-3 lead border-secondary text-right pr-2' id='btnLink2' style={hoverBuddy} onMouseEnter={() => hoverEnterLink()} onMouseLeave={() => hoverLeaveLink()}>add link</div>
                             </div>
                         </div>
                         <div className='col-9'>

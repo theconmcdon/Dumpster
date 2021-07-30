@@ -4,7 +4,8 @@ export interface IChirp {
     text: string,
     time: string,
     day: string,
-    email: string
+    email: string,
+    edit: string
 }
 
 export interface nameProps {
@@ -26,5 +27,13 @@ export interface prePost {
     email: string,
     day: string,
     time: string
+
+}
+
+export interface editPost {
+    text: string,
+    name: string,
+    email: string,
+    edit: string
 
 }
