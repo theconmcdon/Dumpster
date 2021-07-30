@@ -19,7 +19,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
 
 
     
-   
+   ////////////////////////////quick style constants because bootstrap and css docs kinda suck sometimes////////////////////////////
 
     const hoverBuddy = {
         cursor: 'pointer'
@@ -51,11 +51,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
         cursor: 'pointer'
     }
 
-
-
-    //useEffect(() => {
-    //    setTimeout(() => { setArray2(displayedPosts); }, 100)
-    //}, [])
+    //////////////////////////////////////////////////useState constants///////////////////////////////////////////////////////////
 
     const [name, setName] = useState(props.username)
     const [email, setEmail] = useState(props.nickName)
@@ -66,7 +62,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
     const [array, setArray] = useState([])
     const [conditional, setConditional] = useState(false)
 
-
+    ///////////////////Lots of button style related functions to be slimmed down when i care more (sorry)/////////////////////////
 
     const hoverEnterPost = () => {
         let postBtn = document.querySelector('#btnPost')
@@ -140,17 +136,6 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
         postBtn.classList.remove('text-danger')
     }
 
-    const hoverEnterEdit = () => {
-        let postBtn = document.querySelector('#btnEdit')
-        postBtn.classList.add('text-danger')
-    }
-
-    const hoverLeaveEdit = () => {
-        let postBtn = document.querySelector('.btnEdit')
-        postBtn.classList.remove('text-danger')
-    }
-
-
     const hoverEnterButton = (id) => {
         let postBtn = document.querySelector(`#${id}`)
         postBtn.classList.add('text-danger')
@@ -161,47 +146,7 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
         postBtn.classList.remove('text-danger')
     }
 
-    const getPosts = async () => {
-        try {
-            const res = await fetch('/dumpster/feed');
-            const posts = await res.json();
-            setArray(posts);
-            console.log(posts)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getPosts();
-    }, []);
-
-    useEffect(() => {
-        if (conditional) {
-            getPosts();
-            setConditional(false);
-        }
-    }, [conditional]);
-
-    const deletePost = async (id) => {
-        let res = await fetch(`/dumpster/feed/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        });
-        if (res.ok) {
-            getPosts();
-        } else {
-            console.log('uh oh');
-        }
-    }
-
-    
-
-    
-
-    
+    ////////////////////////////////////////////fetch functions and post display stuff/////////////////////////////////////////////////////////
 
     const displayedPosts = array.map(val => {
         if (val.name == props.username) {
@@ -290,10 +235,45 @@ const DumpsterTimeline: React.FC<nameProps> = (props) => {
         }
     }
 
-    useEffect(() => {
+    useEffect(() => { 
         let correctedDisplayedPosts = displayedPosts.reverse();
         setArray2(correctedDisplayedPosts)
     }, [array])
+
+    const getPosts = async () => {
+        try {
+            const res = await fetch('/dumpster/feed');
+            const posts = await res.json();
+            setArray(posts);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getPosts();
+    }, []);
+
+    useEffect(() => {
+        if (conditional) {
+            getPosts();
+            setConditional(false);
+        }
+    }, [conditional]);
+
+    const deletePost = async (id) => {
+        let res = await fetch(`/dumpster/feed/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+        if (res.ok) {
+            getPosts();
+        } else {
+            console.log('uh oh');
+        }
+    }
 
     return (
         <div>
